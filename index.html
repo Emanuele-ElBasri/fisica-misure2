@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Laboratorio di misura</title>
+    <title>La Fabbrica di Precisione - Laboratorio Vittoriano</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');
         
@@ -189,14 +189,6 @@
             box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .control-section {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 248, 230, 0.5);
-            border: 2px solid #a0774a;
-            border-radius: 6px;
-        }
-
         .info-box {
             padding: 15px;
             background: rgba(139, 90, 43, 0.15);
@@ -216,57 +208,47 @@
             color: #2e7d32;
         }
 
-        .info-box.warning {
+        .info-box.error {
             background: rgba(244, 67, 54, 0.2);
             border: 2px solid #f44336;
             color: #c62828;
         }
 
-        .objects-grid {
+        /* Dashboard */
+        .dashboard {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .object-card {
-            padding: 10px;
+        .dashboard-item {
+            padding: 15px;
             background: linear-gradient(135deg, rgba(232, 212, 176, 0.8) 0%, rgba(217, 188, 140, 0.8) 100%);
             border: 3px solid #8b5a2b;
             border-radius: 8px;
             text-align: center;
-            cursor: grab;
-            transition: all 0.2s;
         }
 
-        .object-card:active {
-            cursor: grabbing;
-        }
-
-        .object-card:hover {
-            transform: translateY(-2px);
-            border-color: #b8860b;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .object-card.selected {
-            background: linear-gradient(135deg, rgba(212, 165, 32, 0.4) 0%, rgba(184, 134, 11, 0.4) 100%);
-            border-color: #d4a520;
-            box-shadow: 0 0 15px rgba(212, 165, 32, 0.5);
-        }
-
-        .object-card .icon {
-            font-size: 32px;
-            margin-bottom: 5px;
-        }
-
-        .object-card .name {
+        .dashboard-item .label {
             font-weight: bold;
-            color: #4a3020;
-            font-size: 11px;
+            color: #654321;
+            margin-bottom: 8px;
+            font-size: 13px;
         }
 
-        #measurement-area {
+        .dashboard-item .value {
+            font-size: 28px;
+            color: #4a3020;
+            font-weight: bold;
+        }
+
+        .timer {
+            color: #c62828 !important;
+        }
+
+        /* Componente in ispezione */
+        .component-display {
             height: 300px;
             background: 
                 repeating-linear-gradient(0deg, transparent 0px, transparent 49px, rgba(139, 90, 43, 0.1) 49px, rgba(139, 90, 43, 0.1) 50px),
@@ -275,40 +257,16 @@
             border: 2px solid #a0774a;
             border-radius: 4px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             margin: 20px 0;
             position: relative;
-            transition: all 0.3s ease;
         }
 
-        #measurement-area.drag-over {
-            border-color: #d4a520;
-            border-width: 4px;
-            background: 
-                repeating-linear-gradient(0deg, transparent 0px, transparent 49px, rgba(212, 165, 32, 0.15) 49px, rgba(212, 165, 32, 0.15) 50px),
-                repeating-linear-gradient(90deg, transparent 0px, transparent 49px, rgba(212, 165, 32, 0.15) 49px, rgba(212, 165, 32, 0.15) 50px),
-                linear-gradient(180deg, rgba(255, 250, 240, 0.9) 0%, rgba(250, 240, 220, 0.9) 100%);
-            box-shadow: inset 0 0 20px rgba(212, 165, 32, 0.3);
-        }
-
-        .empty-state {
-            color: #8b5a2b;
-            font-style: italic;
-            text-align: center;
-            padding: 20px;
-            font-size: 16px;
-        }
-
-        #current-object {
+        .component-icon {
             font-size: 120px;
             animation: gentle-pulse 3s ease-in-out infinite;
-            transition: font-size 0.3s ease;
-        }
-
-        #current-object.empty-state {
-            font-size: 16px;
-            animation: none;
         }
 
         @keyframes gentle-pulse {
@@ -316,70 +274,54 @@
             50% { transform: scale(1.05); }
         }
 
-        .tool-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tool-btn {
-            flex: 1;
-            font-family: 'Special Elite', monospace;
-            padding: 15px 10px;
-            background: linear-gradient(180deg, #8b5a2b 0%, #654321 100%);
-            color: #f4e4c1;
-            border: 3px solid #654321;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
+        .component-name {
+            font-size: 1.5em;
             font-weight: bold;
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 3px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .tool-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 5px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        .tool-btn:active {
-            transform: translateY(0);
-        }
-
-        .tool-btn.active {
-            background: linear-gradient(180deg, #d4a520 0%, #b8860b 100%);
-            border-color: #d4a520;
             color: #4a3020;
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.4),
-                0 0 15px rgba(212, 165, 32, 0.5),
-                0 3px 8px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
         }
 
-        .tool-btn small {
-            display: block;
-            margin-top: 5px;
-            font-size: 10px;
-            opacity: 0.9;
-        }
-
-        .measurement-input {
+        /* Specifiche */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin: 20px 0;
         }
 
-        .measurement-input label {
+        .spec-item {
+            padding: 15px;
+            background: rgba(255, 248, 230, 0.5);
+            border: 2px solid #a0774a;
+            border-radius: 6px;
+        }
+
+        .spec-item .label {
+            font-weight: bold;
+            color: #654321;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .spec-item .value {
+            font-size: 20px;
+            color: #4a3020;
+            font-weight: bold;
+        }
+
+        /* Calcoli */
+        .calculation-input {
+            margin: 20px 0;
+        }
+
+        .calculation-input label {
             display: block;
             margin-bottom: 10px;
             color: #4a3020;
             font-weight: bold;
         }
 
-        .measurement-input input {
+        .calculation-input input {
             width: 100%;
             padding: 12px;
             background: rgba(255, 248, 230, 0.8);
@@ -391,7 +333,7 @@
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .measurement-input input:focus {
+        .calculation-input input:focus {
             outline: none;
             border-color: #d4a520;
             box-shadow: 
@@ -399,21 +341,23 @@
                 0 0 10px rgba(212, 165, 32, 0.3);
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
+        /* Pulsanti decisione */
+        .decision-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         button {
             font-family: 'Special Elite', monospace;
-            padding: 12px 20px;
+            padding: 15px 20px;
             background: linear-gradient(180deg, #8b5a2b 0%, #654321 100%);
             color: #f4e4c1;
             border: 3px solid #654321;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             box-shadow: 
                 inset 0 1px 0 rgba(255, 255, 255, 0.2),
@@ -432,163 +376,83 @@
             transform: translateY(0);
         }
 
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-accept {
+            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+            border-color: #2e7d32;
+        }
+
+        .btn-reject {
+            background: linear-gradient(180deg, #f44336 0%, #c62828 100%);
+            border-color: #c62828;
+        }
+
         .btn-primary {
-            flex: 2;
             background: linear-gradient(180deg, #d4a520 0%, #b8860b 100%);
             border-color: #b8860b;
             color: #4a3020;
         }
 
-        .btn-danger {
-            background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
-            border-color: #8b0000;
-        }
-
-        .measurements-list {
-            min-height: 200px;
-            max-height: 350px;
+        /* Storico */
+        .history-list {
+            max-height: 400px;
             overflow-y: auto;
+            padding: 15px;
             background: rgba(255, 248, 230, 0.5);
             border: 2px solid #a0774a;
             border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
         }
 
-        .measurement-item {
+        .history-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 2px solid;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: rgba(232, 212, 176, 0.6);
-            border: 2px solid #8b5a2b;
-            border-radius: 4px;
-        }
-
-        .measurement-item .value {
-            font-weight: bold;
-            color: #4a3020;
-        }
-
-        .measurement-item .remove-btn {
-            font-family: 'Special Elite', monospace;
-            padding: 5px 12px;
-            background: linear-gradient(180deg, #c62828 0%, #8b0000 100%);
-            border: 2px solid #8b0000;
-            border-radius: 4px;
-            color: #f4e4c1;
-            cursor: pointer;
-            font-size: 11px;
-        }
-
-        .measurement-item .remove-btn:hover {
-            background: linear-gradient(180deg, #d32f2f 0%, #a00000 100%);
-        }
-
-        #results-section {
-            margin-top: 30px;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .result-item {
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(232, 212, 176, 0.8) 0%, rgba(217, 188, 140, 0.8) 100%);
-            border: 3px solid #8b5a2b;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .result-item .label {
-            font-weight: bold;
-            color: #654321;
-            margin-bottom: 8px;
             font-size: 14px;
         }
 
-        .result-item .value {
+        .history-item.correct {
+            background: rgba(76, 175, 80, 0.1);
+            border-color: #4caf50;
+        }
+
+        .history-item.wrong {
+            background: rgba(244, 67, 54, 0.1);
+            border-color: #f44336;
+        }
+
+        .history-item .icon {
             font-size: 24px;
-            color: #4a3020;
+        }
+
+        .history-item .details {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .history-item .result {
             font-weight: bold;
-            margin: 5px 0;
         }
 
-        .result-item .formula {
-            font-size: 11px;
-            color: #6d4a2a;
-            font-style: italic;
-            margin-top: 5px;
+        /* Game over */
+        .game-over {
+            text-align: center;
+            padding: 40px;
         }
 
-        .result-final {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, rgba(212, 165, 32, 0.3) 0%, rgba(184, 134, 11, 0.3) 100%);
-            border-color: #d4a520;
-        }
-
-        .result-final .value {
-            font-size: 28px;
-            color: #654321;
-        }
-
-        #dispersion-chart-container {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 248, 230, 0.5);
-            border: 2px solid #a0774a;
-            border-radius: 6px;
-        }
-
-        #dispersion-chart {
-            width: 100%;
-            height: 200px;
-            background: 
-                repeating-linear-gradient(0deg, transparent 0px, transparent 49px, rgba(139, 90, 43, 0.1) 49px, rgba(139, 90, 43, 0.1) 50px),
-                repeating-linear-gradient(90deg, transparent 0px, transparent 49px, rgba(139, 90, 43, 0.1) 49px, rgba(139, 90, 43, 0.1) 50px),
-                linear-gradient(180deg, rgba(255, 250, 240, 0.9) 0%, rgba(250, 240, 220, 0.9) 100%);
-            border: 2px solid #a0774a;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .chart-line {
-            position: absolute;
-            height: 2px;
-            background: #8b5a2b;
-            opacity: 0.7;
-        }
-
-        .chart-point {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #d4a520 0%, #b8860b 50%, #8b6914 100%);
-            border: 2px solid #654321;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
-
-        .chart-point.va-point {
-            width: 16px;
-            height: 16px;
-            background: radial-gradient(circle, #ff6b6b 0%, #c62828 100%);
-            border: 3px solid #8b0000;
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
-            z-index: 10;
-        }
-
-        .chart-label {
-            position: absolute;
-            font-size: 11px;
-            color: #4a3020;
+        .game-over .final-score {
+            font-size: 48px;
+            color: #d4a520;
             font-weight: bold;
+            margin: 20px 0;
         }
 
         @media (max-width: 1024px) {
@@ -596,12 +460,12 @@
                 grid-template-columns: 1fr;
             }
             
-            .container {
-                padding: 30px 20px;
+            .dashboard {
+                grid-template-columns: repeat(3, 1fr);
             }
-            
-            h1 {
-                font-size: 2em;
+
+            .specs-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -623,16 +487,12 @@
                 font-size: 80px;
             }
 
-            .objects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .results-grid {
+            .dashboard {
                 grid-template-columns: 1fr;
             }
 
-            .tool-selector {
-                flex-direction: column;
+            .decision-buttons {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -653,742 +513,506 @@
         <div class="metal-strip metal-strip-bottom"></div>
         
         <header>
-            <h1>Il Laboratorio di misura</h1>
+            <h1>La Fabbrica di Precisione</h1>
             <div class="subtitle">I.C. "C.Puddu", Corso di Fisica - prof. El Basri</div>
-            <div class="subtitle">Misura e Calcola con Precisione Scientifica</div>
+            <div class="subtitle">Controllo Qualità dei Componenti Meccanici</div>
         </header>
-        
-        <div class="main-content">
-            <div class="section">
-                <h2>🔧 Area di Misurazione</h2>
+
+        <!-- Schermata iniziale -->
+        <div id="start-screen">
+            <div class="info-box" style="text-align: center; padding: 40px;">
+                <h2 style="border: none; margin-bottom: 20px;">🏭 Benvenuto Ispettore di Qualità!</h2>
+                <p style="font-size: 1.1em; margin-bottom: 20px;">
+                    La tua missione è ispezionare <strong>10 componenti meccanici</strong> in arrivo dalla linea di produzione.<br>
+                    Devi decidere se <strong>ACCETTARE</strong> o <strong>RIFIUTARE</strong> ogni componente basandoti sulla tolleranza consentita.
+                </p>
+                <p style="margin-bottom: 20px;">
+                    <strong>Come funziona:</strong><br>
+                    • Hai <strong>60 secondi per ogni componente</strong><br>
+                    • Calcola l'errore percentuale: eR% = |Valore Misurato - Valore Nominale| / Valore Nominale × 100<br>
+                    • <strong>Inserisci il valore calcolato</strong> nel campo apposito<br>
+                    • Accetta se eR% ≤ tolleranza, altrimenti rifiuta<br>
+                    • Se non inserisci nulla entro 60 secondi, conta come errore!
+                </p>
+                <button class="btn-primary" id="start-btn" style="font-size: 18px; padding: 20px 40px;">
+                    🎬 Inizia Turno di Lavoro
+                </button>
+            </div>
+        </div>
+
+        <!-- Schermata di gioco -->
+        <div id="game-screen" style="display: none;">
+            <!-- Dashboard -->
+            <div class="dashboard">
+                <div class="dashboard-item">
+                    <div class="label">📦 Componente</div>
+                    <div class="value"><span id="current-piece">1</span>/10</div>
+                </div>
+                <div class="dashboard-item">
+                    <div class="label">⏱️ Tempo Pezzo</div>
+                    <div class="value timer" id="timer">60</div>
+                </div>
+                <div class="dashboard-item">
+                    <div class="label">✓ Corrette</div>
+                    <div class="value" id="correct-count">0</div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Pannello sinistro: Ispezione -->
+                <div class="section">
+                    <h2>🔍 Componente in Ispezione</h2>
+                    
+                    <div class="component-display">
+                        <div class="component-icon" id="component-icon">⚙️</div>
+                        <div class="component-name" id="component-name">Ingranaggio</div>
+                    </div>
+
+                    <h3>📋 Specifiche Tecniche:</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="label">Valore Nominale</div>
+                            <div class="value" id="nominal-value">10.00 cm</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="label">Valore Misurato</div>
+                            <div class="value" id="measured-value">10.15 cm</div>
+                        </div>
+                        <div class="spec-item" style="grid-column: 1 / -1;">
+                            <div class="label">Tolleranza Massima Consentita</div>
+                            <div class="value" id="tolerance-value">±2.0%</div>
+                        </div>
+                    </div>
+
+                    <div class="calculation-input">
+                        <label for="error-input">Calcola l'Errore Percentuale (eR%):</label>
+                        <input type="number" id="error-input" step="0.01" placeholder="Inserisci il tuo calcolo...">
+                        <div style="font-size: 0.85em; color: #6d4a2a; margin-top: 8px; font-style: italic;">
+                            Formula: eR% = |Misurato - Nominale| / Nominale × 100
+                        </div>
+                    </div>
+
+                    <div class="decision-buttons">
+                        <button class="btn-accept" id="accept-btn">
+                            ✓ ACCETTA<br>
+                            <small>Componente OK</small>
+                        </button>
+                        <button class="btn-reject" id="reject-btn">
+                            ✗ RIFIUTA<br>
+                            <small>Fuori Tolleranza</small>
+                        </button>
+                    </div>
+
+                    <div id="feedback-area"></div>
+                </div>
+
+                <!-- Pannello destro: Storico -->
+                <div class="section">
+                    <h2>📊 Storico Ispezioni</h2>
+                    <div class="history-list" id="history-list">
+                        <div class="info-box" style="text-align: center;">
+                            Nessuna ispezione ancora effettuata
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schermata finale -->
+        <div id="end-screen" style="display: none;">
+            <div class="game-over">
+                <h2 style="font-size: 3em; border: none; margin-bottom: 20px;">✅ Turno Completato!</h2>
                 
-                <div class="info-box">
-                    <strong>Istruzioni:</strong> Trascina un oggetto nell'area sottostante per iniziare a misurarlo!
-                </div>
-
-                <h3>Oggetti Disponibili:</h3>
-                <div class="objects-grid">
-                    <div class="object-card" draggable="true" data-object="gear-small" data-true-value="3.2">
-                        <div class="icon">⚙️</div>
-                        <div class="name">Ingranaggio Piccolo</div>
+                <div class="info-box" style="max-width: 600px; margin: 0 auto 30px;">
+                    <div class="label" style="font-size: 1.2em; margin-bottom: 15px;">Punteggio Finale</div>
+                    <div class="final-score" id="final-score">0</div>
+                    <div style="font-size: 1.1em; margin-top: 15px;">
+                        <strong id="final-correct">0</strong> corrette su 10 componenti
                     </div>
-                    <div class="object-card" draggable="true" data-object="pipe" data-true-value="25.8">
-                        <div class="icon">🪄</div>
-                        <div class="name">Tubo di Metallo</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="valve" data-true-value="8.3">
-                        <div class="icon">📀</div>
-                        <div class="name">Valvola</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="bolt" data-true-value="5.2">
-                        <div class="icon">🔩</div>
-                        <div class="name">Bullone</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="spring" data-true-value="15.7">
-                        <div class="icon">〰️</div>
-                        <div class="name">Molla</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="cylinder" data-true-value="42.3">
-                        <div class="icon">🫙</div>
-                        <div class="name">Barattolo di Vetro</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="gear-medium" data-true-value="12.5">
-                        <div class="icon">⚙️</div>
-                        <div class="name">Ingranaggio Medio</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="wheel" data-true-value="67.4">
-                        <div class="icon">⚙️</div>
-                        <div class="name">Ruota Dentata</div>
-                    </div>
-                    <div class="object-card" draggable="true" data-object="gear-large" data-true-value="28.9">
-                        <div class="icon">⚙️</div>
-                        <div class="name">Ingranaggio Grande</div>
+                    <div style="font-size: 1em; margin-top: 10px; color: #6d4a2a;">
+                        ⏱️ Tempo totale impiegato: <strong id="total-time">0</strong> secondi
                     </div>
                 </div>
 
-                <div id="measurement-area">
-                    <div id="current-object" class="empty-state">
-                        Trascina un oggetto qui
-                    </div>
-                </div>
+                <div id="performance-message"></div>
 
-                <h3>Strumento di Misura:</h3>
-                <div class="tool-selector">
-                    <button class="tool-btn active" data-tool="ruler" data-precision="0.5">
-                        📏 Righello<br><small>(sensibilità: ± 0.5 cm)</small>
-                    </button>
-                    <button class="tool-btn" data-tool="meter" data-precision="0.1">
-                        📐 Metro<br><small>(sensibilità: ± 0.1 cm)</small>
-                    </button>
-                    <button class="tool-btn" data-tool="caliper" data-precision="0.01">
-                        🗜️ Calibro<br><small>(sensibilità: ± 0.01 cm)</small>
-                    </button>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="btn-primary" id="simulate-measurement">➕ Aggiungi misura simulata</button>
-                </div>
+                <button class="btn-primary" id="restart-btn" style="font-size: 18px; padding: 20px 40px; margin-top: 30px;">
+                    🔄 Nuovo Turno di Lavoro
+                </button>
             </div>
+        </div>
 
-            <div class="section">
-                <h2>📊 Dati e Calcoli</h2>
-
-                <h3>Misure Raccolte:</h3>
-                <div class="measurements-list" id="measurements-list">
-                    <div class="empty-state">Nessuna misurazione effettuata</div>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="btn-danger" id="clear-measurements">🗑️ Cancella Tutto</button>
-                </div>
-
-                <div id="dispersion-chart-container" style="margin-top: 20px;">
-                    <h3>📈 Grafico Misurazioni:</h3>
-                    <div id="dispersion-chart"></div>
-                </div>
-
-                <div id="calculation-section" style="display: none;">
-                    <h3>🧮 Calcola i Tuoi Risultati:</h3>
-                    <div class="info-box" style="font-size: 0.9em;">
-                        Inserisci almeno <strong>due valori</strong> tra quelli richiesti qui sotto. Il sistema verificherà se i tuoi calcoli sono corretti!
-                    </div>
-
-                    <div class="control-section">
-                        <div class="measurement-input">
-                            <label for="input-va">Valore Attendibile (Va) in cm:</label>
-                            <input type="number" id="input-va" step="0.01" placeholder="Media aritmetica">
-                        </div>
-
-                        <div class="measurement-input">
-                            <label for="input-ea">Errore Assoluto (eA) in cm:</label>
-                            <input type="number" id="input-ea" step="0.01" placeholder="Semidispersione massima">
-                        </div>
-
-                        <div class="measurement-input">
-                            <label for="input-er">Errore Relativo (eR):</label>
-                            <input type="number" id="input-er" step="0.0001" placeholder="eA / Va">
-                        </div>
-
-                        <div class="measurement-input">
-                            <label for="input-erp">Errore Percentuale (eR%) in %:</label>
-                            <input type="number" id="input-erp" step="0.01" placeholder="(eA / Va) × 100">
-                        </div>
-                    </div>
-
-                    <div class="action-buttons">
-                        <button class="btn-primary" id="verify-results">✓ Verifica Risultati</button>
-                        <button id="reset-inputs">🔄 Riprova</button>
-                    </div>
-
-                    <div id="feedback-box"></div>
-                </div>
-
-                <div id="results-section" style="display: none;">
-                    <h3>📈 Risultati Verificati:</h3>
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <div class="label">Valore Attendibile (Va)</div>
-                            <div class="value" id="va-result">-</div>
-                            <div class="formula">Media aritmetica</div>
-                        </div>
-
-                        <div class="result-item">
-                            <div class="label">Errore Assoluto (eA)</div>
-                            <div class="value" id="ea-result">-</div>
-                            <div class="formula">Semidispersione</div>
-                        </div>
-
-                        <div class="result-item">
-                            <div class="label">Errore Relativo (eR)</div>
-                            <div class="value" id="er-result">-</div>
-                            <div class="formula">eA / Va</div>
-                        </div>
-
-                        <div class="result-item">
-                            <div class="label">Errore Percentuale (eR%)</div>
-                            <div class="value" id="erp-result">-</div>
-                            <div class="formula">(eA / Va) × 100</div>
-                        </div>
-
-                        <div class="result-item result-final">
-                            <div class="label">Misura Scientifica Completa</div>
-                            <div class="value" id="final-result">-</div>
-                            <div class="formula">M = Va ± eA</div>
-                        </div>
-                    </div>
-
-                    <div id="comparison-box"></div>
-                </div>
-
-                <div style="margin-top: 30px; padding-top: 30px; border-top: 3px solid #8b5a2b;">
-                    <h3>🎲 Nuovo Esercizio:</h3>
-                    <div class="info-box" style="font-size: 0.9em; margin-bottom: 15px;">
-                        Genera nuove dimensioni casuali per tutti gli oggetti per creare un esercizio completamente nuovo!
-                    </div>
-                    <button class="btn-primary" id="new-exercise" style="width: 100%;">🔄 Genera Nuovo Esercizio</button>
-                </div>
+        <!-- Pulsante Nuovo Esercizio -->
+        <div id="new-exercise-section" style="margin-top: 40px; padding-top: 30px; border-top: 4px solid #8b5a2b; display: none;">
+            <h3 style="font-family: 'IM Fell English', serif; color: #4a3020; text-align: center; margin-bottom: 20px;">
+                🎲 Nuovo Esercizio
+            </h3>
+            <div class="info-box" style="text-align: center;">
+                Genera nuove tolleranze e componenti casuali per un nuovo esercizio!
             </div>
+            <button class="btn-primary" id="new-exercise-btn" style="max-width: 500px; margin: 0 auto; display: block;">
+                🔄 Genera Nuovo Esercizio
+            </button>
         </div>
     </div>
 
     <script>
-        let state = {
-            currentObject: null,
-            trueValue: null,
-            currentTool: 'ruler',
-            toolPrecision: 0.5,
-            measurements: [],
-            correctVa: null,
-            correctEa: null,
-            correctEr: null,
-            correctErp: null
+        // Configurazione componenti
+        const components = [
+            { icon: '⚙️', name: 'Ingranaggio Piccolo', nominalRange: [3, 5] },
+            { icon: '⚙️', name: 'Ingranaggio Medio', nominalRange: [10, 15] },
+            { icon: '⚙️', name: 'Ingranaggio Grande', nominalRange: [25, 35] },
+            { icon: '⚙️', name: 'Ruota Dentata', nominalRange: [55, 75] },
+            { icon: '🪄', name: 'Tubo di Metallo', nominalRange: [20, 30] },
+            { icon: '📀', name: 'Valvola', nominalRange: [7, 12] },
+            { icon: '🔩', name: 'Bullone', nominalRange: [4, 6] },
+            { icon: '〰️', name: 'Molla', nominalRange: [12, 20] },
+            { icon: '🫙', name: 'Barattolo di Vetro', nominalRange: [35, 50] }
+        ];
+
+        const TOTAL_COMPONENTS = 10;
+        const TIME_PER_COMPONENT = 60;
+
+        let gameState = {
+            isPlaying: false,
+            currentPieceNumber: 1,
+            timeLeft: TIME_PER_COMPONENT,
+            correctCount: 0,
+            wrongCount: 0,
+            currentComponent: null,
+            history: [],
+            timerInterval: null,
+            toleranceRange: [1, 5],
+            totalTimeUsed: 0,
+            startTime: null
         };
 
-        const objectCards = document.querySelectorAll('.object-card');
-        const toolButtons = document.querySelectorAll('.tool-btn');
-        const simulateMeasurementBtn = document.getElementById('simulate-measurement');
-        const measurementsList = document.getElementById('measurements-list');
-        const clearBtn = document.getElementById('clear-measurements');
-        const calculationSection = document.getElementById('calculation-section');
-        const verifyBtn = document.getElementById('verify-results');
-        const resetInputsBtn = document.getElementById('reset-inputs');
-        const resultsSection = document.getElementById('results-section');
-        const currentObjectDiv = document.getElementById('current-object');
-        const measurementArea = document.getElementById('measurement-area');
+        // Elementi DOM
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const acceptBtn = document.getElementById('accept-btn');
+        const rejectBtn = document.getElementById('reject-btn');
+        const errorInput = document.getElementById('error-input');
+        const newExerciseBtn = document.getElementById('new-exercise-btn');
+        const newExerciseSection = document.getElementById('new-exercise-section');
 
-        const objectIcons = {
-            'gear-small': '⚙️',
-            'gear-medium': '⚙️',
-            'gear-large': '⚙️',
-            'pipe': '🪄',
-            'valve': '📀',
-            'bolt': '🔩',
-            'spring': '〰️',
-            'cylinder': '🫙',
-            'wheel': '⚙️'
-        };
+        // Inizia gioco
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', startGame);
 
-        let draggedCard = null;
+        function startGame() {
+            gameState = {
+                isPlaying: true,
+                currentPieceNumber: 1,
+                timeLeft: TIME_PER_COMPONENT,
+                correctCount: 0,
+                wrongCount: 0,
+                currentComponent: null,
+                history: [],
+                timerInterval: null,
+                toleranceRange: gameState.toleranceRange,
+                totalTimeUsed: 0,
+                startTime: Date.now()
+            };
 
-        objectCards.forEach(card => {
-            // Click per selezionare
-            card.addEventListener('click', () => {
-                objectCards.forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                
-                const objectType = card.dataset.object;
-                const trueValue = parseFloat(card.dataset.trueValue);
-                
-                state.currentObject = objectType;
-                state.trueValue = trueValue;
-                state.measurements = [];
-                
-                displayObject(objectType);
-                updateMeasurementsList();
-                calculationSection.style.display = 'none';
-                resultsSection.style.display = 'none';
-                clearInputs();
-                drawDispersionChart();
-            });
+            startScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            endScreen.style.display = 'none';
+            newExerciseSection.style.display = 'none';
 
-            // Drag and drop
-            card.addEventListener('dragstart', (e) => {
-                draggedCard = card;
-                card.style.opacity = '0.5';
-            });
+            // Disabilita pulsanti all'inizio
+            acceptBtn.disabled = true;
+            rejectBtn.disabled = true;
 
-            card.addEventListener('dragend', (e) => {
-                card.style.opacity = '1';
-            });
-        });
-
-        measurementArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            measurementArea.classList.add('drag-over');
-        });
-
-        measurementArea.addEventListener('dragleave', () => {
-            measurementArea.classList.remove('drag-over');
-        });
-
-        measurementArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            measurementArea.classList.remove('drag-over');
-
-            if (draggedCard) {
-                objectCards.forEach(c => c.classList.remove('selected'));
-                draggedCard.classList.add('selected');
-                
-                const objectType = draggedCard.dataset.object;
-                const trueValue = parseFloat(draggedCard.dataset.trueValue);
-                
-                state.currentObject = objectType;
-                state.trueValue = trueValue;
-                state.measurements = [];
-                
-                displayObject(objectType);
-                updateMeasurementsList();
-                calculationSection.style.display = 'none';
-                resultsSection.style.display = 'none';
-                clearInputs();
-            }
-        });
-
-        function displayObject(objectType) {
-            const icon = objectIcons[objectType];
-            currentObjectDiv.innerHTML = icon;
-            currentObjectDiv.classList.remove('empty-state');
+            updateDashboard();
+            generateNewComponent();
+            startTimer();
         }
 
-        toolButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                toolButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                state.currentTool = btn.dataset.tool;
-                state.toolPrecision = parseFloat(btn.dataset.precision);
+        // Timer
+        function startTimer() {
+            gameState.timerInterval = setInterval(() => {
+                gameState.timeLeft--;
+                document.getElementById('timer').textContent = gameState.timeLeft;
+
+                if (gameState.timeLeft <= 0) {
+                    // Timeout - conta come errore
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(gameState.timerInterval);
+        }
+
+        function resetTimer() {
+            gameState.timeLeft = TIME_PER_COMPONENT;
+            document.getElementById('timer').textContent = gameState.timeLeft;
+        }
+
+        // Timeout
+        function handleTimeout() {
+            stopTimer();
+            
+            const comp = gameState.currentComponent;
+            const actualError = Math.abs((comp.measured - comp.nominal) / comp.nominal * 100);
+            
+            gameState.wrongCount++;
+
+            const feedbackArea = document.getElementById('feedback-area');
+            feedbackArea.innerHTML = `<div class="info-box error" style="margin-top: 20px;">
+                <strong>⏰ Tempo Scaduto!</strong><br>
+                Non hai inserito un valore entro 60 secondi.<br>
+                Errore percentuale corretto: ${actualError.toFixed(2)}%<br>
+                Decisione corretta: ${comp.correctAnswer ? 'ACCETTARE' : 'RIFIUTARE'}
+            </div>`;
+
+            // Aggiungi allo storico
+            gameState.history.unshift({
+                component: comp,
+                decision: null,
+                correct: false,
+                error: actualError,
+                timeout: true
             });
+
+            updateDashboard();
+            updateHistory();
+
+            // Prossimo componente
+            setTimeout(() => {
+                nextComponent();
+            }, 2000);
+        }
+
+        // Abilita/disabilita pulsanti in base all'input
+        errorInput.addEventListener('input', () => {
+            const hasValue = errorInput.value.trim() !== '';
+            acceptBtn.disabled = !hasValue;
+            rejectBtn.disabled = !hasValue;
         });
 
-        simulateMeasurementBtn.addEventListener('click', () => {
-            if (!state.currentObject) {
-                alert('⚠️ Trascina prima un oggetto nell\'area di misurazione!');
+        // Genera nuovo componente
+        function generateNewComponent() {
+            const component = components[Math.floor(Math.random() * components.length)];
+            const [minNom, maxNom] = component.nominalRange;
+            const nominal = Math.round((Math.random() * (maxNom - minNom) + minNom) * 10) / 10;
+            
+            const [minTol, maxTol] = gameState.toleranceRange;
+            const tolerance = Math.round((Math.random() * (maxTol - minTol) + minTol) * 10) / 10;
+            
+            // Genera valore misurato
+            const shouldBeAcceptable = Math.random() > 0.5;
+            let measured;
+            
+            if (shouldBeAcceptable) {
+                // Genera dentro tolleranza
+                const maxError = (nominal * tolerance / 100) * 0.9;
+                const error = (Math.random() - 0.5) * 2 * maxError;
+                measured = nominal + error;
+            } else {
+                // Genera fuori tolleranza
+                const minError = (nominal * tolerance / 100) * 1.2;
+                const error = (Math.random() * 0.5 + minError) * (Math.random() > 0.5 ? 1 : -1);
+                measured = nominal + error;
+            }
+            
+            measured = Math.round(measured * 100) / 100;
+
+            gameState.currentComponent = {
+                icon: component.icon,
+                name: component.name,
+                nominal: nominal,
+                measured: measured,
+                tolerance: tolerance,
+                correctAnswer: Math.abs((measured - nominal) / nominal * 100) <= tolerance
+            };
+
+            displayComponent();
+            errorInput.value = '';
+            acceptBtn.disabled = true;
+            rejectBtn.disabled = true;
+            document.getElementById('feedback-area').innerHTML = '';
+        }
+
+        // Visualizza componente
+        function displayComponent() {
+            const comp = gameState.currentComponent;
+            document.getElementById('component-icon').textContent = comp.icon;
+            document.getElementById('component-name').textContent = comp.name;
+            document.getElementById('nominal-value').textContent = `${comp.nominal.toFixed(2)} cm`;
+            document.getElementById('measured-value').textContent = `${comp.measured.toFixed(2)} cm`;
+            document.getElementById('tolerance-value').textContent = `±${comp.tolerance.toFixed(1)}%`;
+        }
+
+        // Decisione
+        acceptBtn.addEventListener('click', () => makeDecision(true));
+        rejectBtn.addEventListener('click', () => makeDecision(false));
+
+        function makeDecision(acceptDecision) {
+            stopTimer();
+
+            const comp = gameState.currentComponent;
+            const actualError = Math.abs((comp.measured - comp.nominal) / comp.nominal * 100);
+            const userError = parseFloat(errorInput.value);
+            
+            const isCorrect = acceptDecision === comp.correctAnswer;
+            const errorCalculationCorrect = !isNaN(userError) && Math.abs(userError - actualError) < 0.1;
+
+            if (isCorrect) {
+                gameState.correctCount++;
+            } else {
+                gameState.wrongCount++;
+            }
+
+            // Feedback
+            const feedbackArea = document.getElementById('feedback-area');
+            let feedbackHTML = '';
+            
+            if (isCorrect) {
+                feedbackHTML = `<div class="info-box success" style="margin-top: 20px;">
+                    <strong>✓ Decisione Corretta!</strong><br>
+                    Errore percentuale: ${actualError.toFixed(2)}% ${comp.correctAnswer ? '≤' : '>'} ${comp.tolerance.toFixed(1)}%<br>
+                    ${errorCalculationCorrect ? '✓ Calcolo corretto! 🎯' : `⚠️ Calcolo errato: hai inserito ${userError.toFixed(2)}% (corretto: ${actualError.toFixed(2)}%)`}
+                </div>`;
+            } else {
+                feedbackHTML = `<div class="info-box error" style="margin-top: 20px;">
+                    <strong>✗ Decisione Errata!</strong><br>
+                    Errore percentuale: ${actualError.toFixed(2)}% ${comp.correctAnswer ? '≤' : '>'} ${comp.tolerance.toFixed(1)}%<br>
+                    Dovevi ${comp.correctAnswer ? 'ACCETTARE' : 'RIFIUTARE'} il componente!<br>
+                    ${errorCalculationCorrect ? 'Almeno il calcolo era corretto.' : `Calcolo errato: hai inserito ${userError.toFixed(2)}% (corretto: ${actualError.toFixed(2)}%)`}
+                </div>`;
+            }
+            
+            feedbackArea.innerHTML = feedbackHTML;
+
+            // Aggiungi allo storico
+            gameState.history.unshift({
+                component: comp,
+                decision: acceptDecision,
+                correct: isCorrect,
+                error: actualError,
+                userError: userError,
+                errorCalculationCorrect: errorCalculationCorrect,
+                timeout: false
+            });
+
+            updateDashboard();
+            updateHistory();
+
+            // Prossimo componente
+            setTimeout(() => {
+                nextComponent();
+            }, 2000);
+        }
+
+        // Prossimo componente
+        function nextComponent() {
+            if (gameState.currentPieceNumber >= TOTAL_COMPONENTS) {
+                // Fine gioco
+                endGame();
+            } else {
+                gameState.currentPieceNumber++;
+                resetTimer();
+                generateNewComponent();
+                updateDashboard();
+                startTimer();
+            }
+        }
+
+        // Aggiorna dashboard
+        function updateDashboard() {
+            document.getElementById('current-piece').textContent = gameState.currentPieceNumber;
+            document.getElementById('correct-count').textContent = gameState.correctCount;
+        }
+
+        // Aggiorna storico
+        function updateHistory() {
+            const historyList = document.getElementById('history-list');
+            
+            if (gameState.history.length === 0) {
+                historyList.innerHTML = '<div class="info-box" style="text-align: center;">Nessuna ispezione ancora effettuata</div>';
                 return;
             }
 
-            const randomError = (Math.random() - 0.5) * state.toolPrecision * 4;
-            const simulatedValue = state.trueValue + randomError;
-            const roundedValue = Math.round(simulatedValue / state.toolPrecision) * state.toolPrecision;
-            
-            state.measurements.push(roundedValue);
-            updateMeasurementsList();
-            
-            // Plotta subito le misure sul grafico
-            drawDispersionChart();
-            
-            if (state.measurements.length >= 2) {
-                calculationSection.style.display = 'block';
-                calculateCorrectValues();
-            }
-            
-            resultsSection.style.display = 'none';
-        });
-
-        function updateMeasurementsList() {
-            if (state.measurements.length === 0) {
-                measurementsList.innerHTML = '<div class="empty-state">Nessuna misurazione effettuata</div>';
-                return;
-            }
-
-            measurementsList.innerHTML = state.measurements.map((m, index) => `
-                <div class="measurement-item">
-                    <span>M<sub>${index + 1}</sub> = <span class="value">${m.toFixed(2)} cm</span></span>
-                    <button class="remove-btn" onclick="removeMeasurement(${index})">✕</button>
+            historyList.innerHTML = gameState.history.map((item, index) => `
+                <div class="history-item ${item.correct ? 'correct' : 'wrong'}">
+                    <div class="icon">${item.component.icon}</div>
+                    <div class="details">
+                        <div><strong>#${TOTAL_COMPONENTS - index} - ${item.component.name}</strong></div>
+                        <div style="font-size: 12px;">
+                            ${item.timeout ? '⏰ Timeout' : `eR%: ${item.error.toFixed(2)}% | Tolleranza: ±${item.component.tolerance.toFixed(1)}%`}
+                        </div>
+                    </div>
+                    <div class="result">${item.timeout ? '⏰' : item.correct ? '✓' : '✗'}</div>
                 </div>
             `).join('');
         }
 
-        function removeMeasurement(index) {
-            state.measurements.splice(index, 1);
-            updateMeasurementsList();
-            
-            // Riplotta il grafico
-            drawDispersionChart();
-            
-            if (state.measurements.length < 2) {
-                calculationSection.style.display = 'none';
+        // Fine gioco
+        function endGame() {
+            stopTimer();
+            gameState.isPlaying = false;
+
+            const totalTimeElapsed = Math.floor((Date.now() - gameState.startTime) / 1000);
+            gameState.totalTimeUsed = totalTimeElapsed;
+
+            const percentage = Math.round((gameState.correctCount / TOTAL_COMPONENTS) * 100);
+
+            gameScreen.style.display = 'none';
+            endScreen.style.display = 'block';
+            newExerciseSection.style.display = 'block';
+
+            document.getElementById('final-score').textContent = `${percentage}%`;
+            document.getElementById('final-correct').textContent = gameState.correctCount;
+            document.getElementById('total-time').textContent = totalTimeElapsed;
+
+            let message = '';
+            if (percentage === 100) {
+                message = '<div class="info-box success"><strong>🏆 PERFETTO!</strong><br>Hai ispezionato tutti i componenti correttamente! Sei un maestro del controllo qualità!</div>';
+            } else if (percentage >= 80) {
+                message = '<div class="info-box success"><strong>👍 Ottimo lavoro!</strong><br>Prestazione eccellente! La fabbrica è in ottime mani.</div>';
+            } else if (percentage >= 60) {
+                message = '<div class="info-box"><strong>📊 Buon lavoro</strong><br>Discreto, ma puoi migliorare con più pratica sui calcoli degli errori.</div>';
             } else {
-                calculateCorrectValues();
+                message = '<div class="info-box error"><strong>📚 Da rivedere</strong><br>Ripassa il calcolo dell\'errore percentuale e le tolleranze, poi riprova!</div>';
             }
-            
-            resultsSection.style.display = 'none';
-            clearInputs();
+
+            document.getElementById('performance-message').innerHTML = message;
         }
 
-        function calculateCorrectValues() {
-            const n = state.measurements.length;
+        // Nuovo esercizio
+        newExerciseBtn.addEventListener('click', () => {
+            // Genera nuova tolleranza casuale
+            const minTol = Math.round((Math.random() * 1.5 + 0.5) * 10) / 10;
+            const maxTol = Math.round((Math.random() * 3 + 2.5) * 10) / 10;
             
-            state.correctVa = state.measurements.reduce((sum, m) => sum + m, 0) / n;
-            
-            const max = Math.max(...state.measurements);
-            const min = Math.min(...state.measurements);
-            state.correctEa = (max - min) / 2;
-            
-            state.correctEr = state.correctEa / state.correctVa;
-            
-            state.correctErp = state.correctEr * 100;
-        }
+            gameState.toleranceRange = [minTol, maxTol];
 
-        verifyBtn.addEventListener('click', () => {
-            const inputVa = parseFloat(document.getElementById('input-va').value);
-            const inputEa = parseFloat(document.getElementById('input-ea').value);
-            const inputEr = parseFloat(document.getElementById('input-er').value);
-            const inputErp = parseFloat(document.getElementById('input-erp').value);
+            // Mostra messaggio
+            const message = `
+                <div class="info-box success" style="text-align: center; padding: 30px;">
+                    <strong>✓ Nuovo esercizio generato!</strong><br><br>
+                    Nuova gamma di tolleranze: <strong>±${minTol.toFixed(1)}% - ±${maxTol.toFixed(1)}%</strong><br><br>
+                    Clicca "Nuovo Turno di Lavoro" per iniziare!
+                </div>
+            `;
 
-            const filledCount = [inputVa, inputEa, inputEr, inputErp].filter(v => !isNaN(v)).length;
+            endScreen.innerHTML = `
+                <div class="game-over">
+                    ${message}
+                    <button class="btn-primary" id="restart-btn-new" style="font-size: 18px; padding: 20px 40px; margin-top: 30px;">
+                        🔄 Nuovo Turno di Lavoro
+                    </button>
+                </div>
+            `;
 
-            if (filledCount < 2) {
-                showFeedback('warning', '⚠️ Devi inserire almeno <strong>due valori</strong> per verificare i tuoi calcoli!');
-                return;
-            }
-
-            const tolerance = 0.005;
-            let allCorrect = true;
-            let errors = [];
-
-            if (!isNaN(inputVa)) {
-                if (Math.abs(inputVa - state.correctVa) / state.correctVa > tolerance) {
-                    allCorrect = false;
-                    errors.push('Va');
-                }
-            }
-
-            if (!isNaN(inputEa)) {
-                if (state.correctEa === 0) {
-                    if (inputEa !== 0) {
-                        allCorrect = false;
-                        errors.push('eA');
-                    }
-                } else if (Math.abs(inputEa - state.correctEa) / state.correctEa > tolerance) {
-                    allCorrect = false;
-                    errors.push('eA');
-                }
-            }
-
-            if (!isNaN(inputEr)) {
-                if (Math.abs(inputEr - state.correctEr) > 0.01) {
-                    allCorrect = false;
-                    errors.push('eR');
-                }
-            }
-
-            if (!isNaN(inputErp)) {
-                if (Math.abs(inputErp - state.correctErp) > 1) {
-                    allCorrect = false;
-                    errors.push('eR%');
-                }
-            }
-
-            if (allCorrect) {
-                showFeedback('success', '✓ <strong>Ottimo lavoro!</strong> I tuoi calcoli sono corretti! Ecco tutti i risultati:');
-                displayResults();
-            } else {
-                showFeedback('warning', `⚠️ Alcuni valori non sono corretti: <strong>${errors.join(', ')}</strong>. <br>Ricontrolla i tuoi calcoli e riprova! Puoi anche aggiungere altre misure per migliorare la precisione.`);
-            }
+            document.getElementById('restart-btn-new').addEventListener('click', startGame);
         });
-
-        function showFeedback(type, message) {
-            const feedbackBox = document.getElementById('feedback-box');
-            feedbackBox.innerHTML = `<div class="info-box ${type}">${message}</div>`;
-        }
-
-        resetInputsBtn.addEventListener('click', () => {
-            clearInputs();
-            document.getElementById('feedback-box').innerHTML = '';
-        });
-
-        function clearInputs() {
-            document.getElementById('input-va').value = '';
-            document.getElementById('input-ea').value = '';
-            document.getElementById('input-er').value = '';
-            document.getElementById('input-erp').value = '';
-        }
-
-        function displayResults() {
-            document.getElementById('va-result').textContent = `${state.correctVa.toFixed(2)} cm`;
-            document.getElementById('ea-result').textContent = `${state.correctEa.toFixed(2)} cm`;
-            document.getElementById('er-result').textContent = state.correctEr.toFixed(4);
-            document.getElementById('erp-result').textContent = `${state.correctErp.toFixed(2)}%`;
-            document.getElementById('final-result').textContent = `M = (${state.correctVa.toFixed(2)} ± ${state.correctEa.toFixed(2)}) cm`;
-            
-            const comparisonBox = document.getElementById('comparison-box');
-            if (state.trueValue) {
-                const lowerBound = state.correctVa - state.correctEa;
-                const upperBound = state.correctVa + state.correctEa;
-                
-                if (state.trueValue >= lowerBound && state.trueValue <= upperBound) {
-                    comparisonBox.innerHTML = `
-                        <div class="info-box success">
-                            <strong>✓ Misura Accurata!</strong><br>
-                            Il valore vero (${state.trueValue} cm) è contenuto nell'intervallo [${lowerBound.toFixed(2)} - ${upperBound.toFixed(2)}] cm. 
-                            Le tue misure sono precise e accurate! 🎯
-                        </div>
-                    `;
-                } else {
-                    const distance = Math.min(Math.abs(state.trueValue - lowerBound), Math.abs(state.trueValue - upperBound));
-                    comparisonBox.innerHTML = `
-                        <div class="info-box warning">
-                            <strong>⚠️ Possibili Errori Sistematici</strong><br>
-                            Il valore vero (${state.trueValue} cm) NON è nell'intervallo [${lowerBound.toFixed(2)} - ${upperBound.toFixed(2)}] cm.<br>
-                            Distanza: ${distance.toFixed(2)} cm. Controlla lo strumento e il metodo di misura!
-                        </div>
-                    `;
-                }
-            } else {
-                comparisonBox.innerHTML = '';
-            }
-            
-            resultsSection.style.display = 'block';
-            
-            // Ridisegna il grafico per mostrare Va in rosso
-            drawDispersionChart();
-            
-            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function drawDispersionChart() {
-            const chart = document.getElementById('dispersion-chart');
-            chart.innerHTML = '';
-            
-            if (state.measurements.length === 0) return;
-            
-            const chartRect = chart.getBoundingClientRect();
-            const chartWidth = chartRect.width;
-            const chartHeight = 200;
-            const paddingLeft = 20;
-            const paddingRight = 20;
-            const paddingTop = 40;
-            const paddingBottom = 40;
-            
-            const availableWidth = chartWidth - paddingLeft - paddingRight;
-            const availableHeight = chartHeight - paddingTop - paddingBottom;
-            
-            // Trova min e max delle misure per la scala
-            const allValues = [...state.measurements];
-            if (state.correctVa !== null) {
-                allValues.push(state.correctVa);
-            }
-            
-            const minValue = Math.min(...allValues);
-            const maxValue = Math.max(...allValues);
-            const range = maxValue - minValue || 1;
-            const padding_scale = range * 0.2; // 20% di margine
-            
-            const scaleMin = minValue - padding_scale;
-            const scaleMax = maxValue + padding_scale;
-            const scaleRange = scaleMax - scaleMin;
-            
-            // Funzione per convertire valore in posizione X
-            function valueToX(value) {
-                const ratio = (value - scaleMin) / scaleRange;
-                return paddingLeft + ratio * availableWidth;
-            }
-            
-            // Asse X (orizzontale al centro)
-            const centerY = chartHeight / 2;
-            const axisLine = document.createElement('div');
-            axisLine.className = 'chart-line';
-            axisLine.style.width = `${availableWidth}px`;
-            axisLine.style.left = `${paddingLeft}px`;
-            axisLine.style.top = `${centerY}px`;
-            axisLine.style.background = '#654321';
-            axisLine.style.height = '2px';
-            axisLine.style.opacity = '0.4';
-            chart.appendChild(axisLine);
-            
-            // Plotta le misure
-            const yPositions = [];
-            const pointRadius = 6;
-            const minDistance = pointRadius * 3; // Distanza minima tra punti
-            
-            state.measurements.forEach((m, index) => {
-                const point = document.createElement('div');
-                point.className = 'chart-point';
-                point.title = `M${index + 1} = ${m.toFixed(2)} cm`;
-                
-                const x = valueToX(m);
-                
-                // Distribuzione verticale per evitare sovrapposizioni
-                let y = centerY;
-                let attempts = 0;
-                const maxAttempts = 50;
-                
-                while (attempts < maxAttempts) {
-                    let tooClose = false;
-                    for (let pos of yPositions) {
-                        const dx = Math.abs(x - pos.x);
-                        const dy = Math.abs(y - pos.y);
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < minDistance) {
-                            tooClose = true;
-                            break;
-                        }
-                    }
-                    
-                    if (!tooClose) {
-                        break;
-                    }
-                    
-                    // Prova una nuova posizione Y alternando sopra/sotto
-                    const offset = (attempts + 1) * 15;
-                    y = centerY + (attempts % 2 === 0 ? offset : -offset);
-                    attempts++;
-                }
-                
-                yPositions.push({ x, y });
-                
-                point.style.left = `${x}px`;
-                point.style.top = `${y}px`;
-                chart.appendChild(point);
-            });
-            
-            // Plotta Va in rosso se calcolato e verificato
-            if (state.correctVa !== null && resultsSection.style.display === 'block') {
-                const vaPoint = document.createElement('div');
-                vaPoint.className = 'chart-point va-point';
-                vaPoint.title = `Va = ${state.correctVa.toFixed(2)} cm`;
-                
-                const vaX = valueToX(state.correctVa);
-                vaPoint.style.left = `${vaX}px`;
-                vaPoint.style.top = `${centerY}px`;
-                chart.appendChild(vaPoint);
-                
-                // Label Va
-                const vaLabel = document.createElement('div');
-                vaLabel.className = 'chart-label';
-                vaLabel.style.left = `${vaX}px`;
-                vaLabel.style.top = `${centerY - 30}px`;
-                vaLabel.style.transform = 'translateX(-50%)';
-                vaLabel.style.color = '#c62828';
-                vaLabel.style.fontWeight = 'bold';
-                vaLabel.textContent = `Va = ${state.correctVa.toFixed(2)}`;
-                chart.appendChild(vaLabel);
-                
-                // Linee ±eA se disponibile
-                if (state.correctEa !== null && state.correctEa > 0) {
-                    const eaMinX = valueToX(state.correctVa - state.correctEa);
-                    const eaMaxX = valueToX(state.correctVa + state.correctEa);
-                    
-                    // Linea -eA
-                    const eaMinLine = document.createElement('div');
-                    eaMinLine.style.position = 'absolute';
-                    eaMinLine.style.left = `${eaMinX}px`;
-                    eaMinLine.style.top = `${paddingTop}px`;
-                    eaMinLine.style.width = '1px';
-                    eaMinLine.style.height = `${availableHeight}px`;
-                    eaMinLine.style.background = '#d4a520';
-                    eaMinLine.style.opacity = '0.5';
-                    chart.appendChild(eaMinLine);
-                    
-                    const eaMinLabel = document.createElement('div');
-                    eaMinLabel.className = 'chart-label';
-                    eaMinLabel.style.left = `${eaMinX}px`;
-                    eaMinLabel.style.top = `${paddingTop - 15}px`;
-                    eaMinLabel.style.transform = 'translateX(-50%)';
-                    eaMinLabel.style.color = '#d4a520';
-                    eaMinLabel.style.fontSize = '10px';
-                    eaMinLabel.textContent = '-eA';
-                    chart.appendChild(eaMinLabel);
-                    
-                    // Linea +eA
-                    const eaMaxLine = document.createElement('div');
-                    eaMaxLine.style.position = 'absolute';
-                    eaMaxLine.style.left = `${eaMaxX}px`;
-                    eaMaxLine.style.top = `${paddingTop}px`;
-                    eaMaxLine.style.width = '1px';
-                    eaMaxLine.style.height = `${availableHeight}px`;
-                    eaMaxLine.style.background = '#d4a520';
-                    eaMaxLine.style.opacity = '0.5';
-                    chart.appendChild(eaMaxLine);
-                    
-                    const eaMaxLabel = document.createElement('div');
-                    eaMaxLabel.className = 'chart-label';
-                    eaMaxLabel.style.left = `${eaMaxX}px`;
-                    eaMaxLabel.style.top = `${paddingTop - 15}px`;
-                    eaMaxLabel.style.transform = 'translateX(-50%)';
-                    eaMaxLabel.style.color = '#d4a520';
-                    eaMaxLabel.style.fontSize = '10px';
-                    eaMaxLabel.textContent = '+eA';
-                    chart.appendChild(eaMaxLabel);
-                }
-            }
-            
-            // Label scala min e max
-            const minLabel = document.createElement('div');
-            minLabel.className = 'chart-label';
-            minLabel.style.left = `${paddingLeft}px`;
-            minLabel.style.bottom = '5px';
-            minLabel.style.fontSize = '10px';
-            minLabel.textContent = scaleMin.toFixed(1);
-            chart.appendChild(minLabel);
-            
-            const maxLabel = document.createElement('div');
-            maxLabel.className = 'chart-label';
-            maxLabel.style.right = `${paddingRight}px`;
-            maxLabel.style.bottom = '5px';
-            maxLabel.style.fontSize = '10px';
-            maxLabel.textContent = scaleMax.toFixed(1);
-            chart.appendChild(maxLabel);
-        }
-
-        clearBtn.addEventListener('click', () => {
-            if (confirm('⚠️ Sei sicuro di voler cancellare tutte le misurazioni?')) {
-                state.measurements = [];
-                updateMeasurementsList();
-                calculationSection.style.display = 'none';
-                resultsSection.style.display = 'none';
-                clearInputs();
-                document.getElementById('feedback-box').innerHTML = '';
-                drawDispersionChart();
-            }
-        });
-
-        // Genera nuovo esercizio con valori randomizzati
-        const newExerciseBtn = document.getElementById('new-exercise');
-        
-        function generateNewExercise() {
-            // Range di valori per ogni oggetto (min, max in cm)
-            const objectRanges = {
-                'gear-small': [2.5, 4.5],
-                'pipe': [20, 35],
-                'valve': [6, 12],
-                'bolt': [4, 7],
-                'spring': [12, 20],
-                'cylinder': [35, 50],
-                'gear-medium': [10, 16],
-                'wheel': [55, 80],
-                'gear-large': [24, 35]
-            };
-            
-            // Genera nuovi valori casuali per ogni oggetto
-            objectCards.forEach(card => {
-                const objectType = card.dataset.object;
-                const [min, max] = objectRanges[objectType];
-                const randomValue = min + Math.random() * (max - min);
-                const roundedValue = Math.round(randomValue * 10) / 10; // Arrotonda a 0.1
-                
-                card.dataset.trueValue = roundedValue;
-            });
-            
-            // Reset completo
-            objectCards.forEach(c => c.classList.remove('selected'));
-            state.currentObject = null;
-            state.trueValue = null;
-            state.measurements = [];
-            state.correctVa = null;
-            state.correctEa = null;
-            state.correctEr = null;
-            state.correctErp = null;
-            
-            currentObjectDiv.innerHTML = 'Trascina un oggetto qui';
-            currentObjectDiv.classList.add('empty-state');
-            
-            updateMeasurementsList();
-            calculationSection.style.display = 'none';
-            resultsSection.style.display = 'none';
-            clearInputs();
-            document.getElementById('feedback-box').innerHTML = '';
-            
-            // Mostra messaggio di conferma
-            const feedbackBox = document.getElementById('feedback-box');
-            feedbackBox.innerHTML = '<div class="info-box success">✓ Nuovo esercizio generato! Seleziona un oggetto per iniziare.</div>';
-            setTimeout(() => {
-                feedbackBox.innerHTML = '';
-            }, 3000);
-        }
-        
-        newExerciseBtn.addEventListener('click', generateNewExercise);
     </script>
 </body>
 </html>
