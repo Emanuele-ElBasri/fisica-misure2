@@ -529,7 +529,7 @@
                 <p style="margin-bottom: 20px;">
                     <strong>Come funziona:</strong><br>
                     • Hai <strong>60 secondi per ogni componente</strong><br>
-                    • Calcola l'errore percentuale: eR% = |Valore Misurato - Valore Nominale| / Valore Nominale × 100<br>
+                    • Calcola l'errore percentuale: eR% = [Valore Misurato - Valore Nominale (Va)] / Valore Nominale (Va) × 100<br>
                     • <strong>Inserisci il valore calcolato</strong> nel campo apposito<br>
                     • Accetta se eR% ≤ tolleranza, altrimenti rifiuta<br>
                     • Se non inserisci nulla entro 60 secondi, conta come errore!
@@ -571,11 +571,11 @@
                     <h3>📋 Specifiche Tecniche:</h3>
                     <div class="specs-grid">
                         <div class="spec-item">
-                            <div class="label">Valore Nominale</div>
+                            <div class="label">Valore Nominale (Va)</div>
                             <div class="value" id="nominal-value">10.00 cm</div>
                         </div>
                         <div class="spec-item">
-                            <div class="label">Valore Misurato</div>
+                            <div class="label">Valore Misurato (Vm)</div>
                             <div class="value" id="measured-value">10.15 cm</div>
                         </div>
                         <div class="spec-item" style="grid-column: 1 / -1;">
@@ -587,8 +587,8 @@
                     <div class="calculation-input">
                         <label for="error-input">Calcola l'Errore Percentuale (eR%):</label>
                         <input type="number" id="error-input" step="0.01" placeholder="Inserisci il tuo calcolo...">
-                        <div style="font-size: 0.85em; color: #6d4a2a; margin-top: 8px; font-style: italic;">
-                            Formula: eR% = |Misurato - Nominale| / Nominale × 100
+                        <div style="font-size: 1.2em; color: #6d4a2a; margin-top: 8px; font-weight: bold; text-align: center;">
+                            Formula: eR% = (Vm - Va) / Va × 100
                         </div>
                     </div>
 
